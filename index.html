@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untuk Kamu, Sayang</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap');
+
+    body {
+      background: #ffe6e6;
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      animation-duration: 1s;
+    }
+
+    .page.active {
+      display: flex;
+      animation-name: fadeInPage;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1, h2 {
+      color: #e60073;
+      font-family: 'Pacifico', cursive;
+      margin-top: 0;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    .heart {
+      font-size: 50px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .photo {
+      margin: 20px 0;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #e60073;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #cc005f;
+    }
+
+    .envelope {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      margin: 20px auto;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .envelope-inner {
+      width: 100%;
+      height: 100%;
+      background: #ffccd5;
+      border-radius: 10px;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .envelope.open .envelope-inner {
+      transform: rotateX(180deg);
+    }
+
+    .envelope.shake .envelope-inner {
+      animation: shake 0.6s;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(5deg); }
+      40% { transform: rotate(-5deg); }
+      60% { transform: rotate(5deg); }
+      80% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .envelope-front, .envelope-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+    }
+
+    .envelope-front {
+      background: #ffccd5;
+    }
+
+    .envelope-back {
+      background: #fff8f0;
+      transform: rotateX(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Segitiga untuk tutup amplop */
+    .envelope-back::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 20px solid #ffccd5;
+    }
+
+    .letter {
+      width: 100%;
+      font-size: 16px;
+      border: 2px dashed #e60073;
+      padding: 10px;
+      text-align: left;
+      border-radius: 12px;
+      background: #fff8f0;
+      overflow-y: auto;
+      max-height: 150px;
+      line-height: 1.7;
+      font-family: 'Quicksand', sans-serif;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Halaman Utama -->
+  <div class="page active" id="page1">
+    <div class="card">
+      <div class="heart">❤️</div>
+      <h1>Hai, Sayang!</h1>
+      <div class="photo">
+        <img src="mimo.jpg.jpg" alt="My precious one, Milan" />
+      </div>
+      <p>Terima kasih sudah jadi bagian terindah dalam hidupku.</p>
+      <p>Kalau dunia lagi rumit, biarin aku tetep di samping kamu.</p>
+      <p>I adore you so much, Milanku. 💖</p>
+
+      <audio controls autoplay loop>
+        <source src="You'll be in my heart.mp3" type="audio/mp3" />
+      </audio>
+
+      <button onclick="showPage('page2')">Ada Moira di sini 🎁</button>
+    </div>
+  </div>
+
+  <!-- Halaman Surat -->
+  <div class="page" id="page2">
+    <div class="card">
+      <h2>Surat Kecil Untukmu 💌</h2>
+      <div class="envelope" onclick="handleEnvelopeClick()">
+        <div class="envelope-inner">
+          <div class="envelope-front"></div>
+          <div class="envelope-back">
+            <div class="letter" id="letter"></div>
+          </div>
+        </div>
+      </div>
+      <button onclick="showPage('page1')">Kembali ke Halaman Utama</button>
+    </div>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    const letterText = `Kamu selalu pantas dicintai setiap hari. Jangan pernah ragu sama diri sendiri, ya? Aku percaya kamu, dan aku bangga banget sama kamu. Jatuh cinta padamu tidak hanya menghasilkan rasa senang, tapi juga rasa tenang. Beriringan denganmu tidak hanya membuatku lebih banyak tertawa, tapi juga mensyukuri setiap momen yang ada. Aku tidak pernah membayangkan bahwa aku akan menemukan cinta yang sehangat ini, sedamai ini, serta sebahagia ini. Jika perihal mencintaimu seperti filosofi bumi dan manusia, aku tidak mau mengingat bagian hancurnya bumi dan musnahnya manusia. Karena, rasa ini lebih abadi dibandingkan tempat dan makhluk hidup.`;
+
+    let idx = 0;
+
+    function handleEnvelopeClick() {
+      const envelope = document.querySelector('.envelope');
+      if (!envelope.classList.contains('open') && !envelope.classList.contains('shake')) {
+        envelope.classList.add('shake');
+        setTimeout(() => {
+          envelope.classList.remove('shake');
+          envelope.classList.add('open');
+          setTimeout(startTyping, 1000);
+        }, 600); // setelah selesai shake
+      }
+    }
+
+    function startTyping() {
+      const letterDiv = document.getElementById('letter');
+      letterDiv.style.display = 'block';
+      letterDiv.innerHTML = "";
+      idx = 0;
+      const type = () => {
+        if (idx < letterText.length) {
+          letterDiv.innerHTML += letterText[idx];
+          idx++;
+          setTimeout(type, 50);  // kecepatan mengetik lebih lambat
+        }
+      };
+      type();
+    }
+  </script>
+
+</body>
+
+</html>
